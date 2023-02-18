@@ -1,0 +1,17 @@
+storage:
+  problems: /opt/codefighter/problems
+  users: /opt/codefighter/users
+
+workspace:
+  path: /opt/codefighter/workspace
+  python: python
+
+server:
+  port: 8088
+
+security:
+  whitelist: "/v3/api-docs, /swagger-ui,
+              /api/v1/auth, /api/v1/auth/refresh"
+  jwt:
+    secret: ${JWT_SECRET:my_name_is_giorno_giovanna_and_i_have_a_dream}
+    lifetime: ${JWT_LIFETIME:600}
