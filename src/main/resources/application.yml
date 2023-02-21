@@ -1,9 +1,10 @@
 storage:
   problems: /opt/codefighter/problems
   users: /opt/codefighter/users
+  solutions: /opt/codefighter/solutions
 
 workspace:
-  path: /opt/codefighter/workspace
+  path: D:/opt/codefighter/workspace
   python: python
 
 server:

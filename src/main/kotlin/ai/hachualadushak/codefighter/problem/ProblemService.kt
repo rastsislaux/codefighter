@@ -6,6 +6,8 @@ import ai.hachualadushak.codefighter.runCommand
 import ai.hachualadushak.codefighter.toCheckResult
 import ai.hachualadushak.codefighter.user.UserService
 import java.io.File
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.UUID.randomUUID
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class ProblemService(
     private val problemRepository: ProblemRepository,
+    private val solutionRepository: SolutionRepository,
     private val userService: UserService,
 
     @Value("\${workspace.path}")
@@ -30,6 +33,18 @@ class ProblemService(
 
     fun delete(id: Int) = problemRepository.deleteById(id)
 
+    private fun checkTime(workspacePath: String): Long {
+        val start = LocalDateTime.now()
+        for (i in 1..50) {
+            "$pythonPath test.py".runCommand(File(workspacePath))
+        }
+        val finish = LocalDateTime.now()
+
+        return Duration.between(start, finish).toMillis()
+    }
+
+    fun getBestSolutions(id: Long) = solutionRepository.getByProblem(id)
+
     fun checkById(id: Int, code: String): CheckTaskDto {
         val problem = findById(id)
         val codeToRun = problem.checkerCode.replace("\${userFunction}", code)
@@ -39,16 +54,23 @@ class ProblemService(
         File("$workspacePath/test.py").writeText(codeToRun)
 
         val result = "$pythonPath test.py".runCommand(File(workspacePath))
-        File(workspacePath).deleteRecursively()
 
+        var time: Long = Long.MAX_VALUE
         if (result.isNullOrBlank()) {
-            problem.best = userService.getCurrent().login!!
-            problemRepository.save(problem)
+            time = checkTime(workspacePath)
+            val currentUser = userService.getCurrent()
+            solutionRepository.save(Solution(
+                author = currentUser.fullName ?: "Unknown legend",
+                time = time,
+                problem = problem
+            ))
         }
+        File(workspacePath).deleteRecursively()
 
         return problem.toCheckResult(
             if (result.isNullOrBlank()) CheckStatus.SUCCESS else CheckStatus.FAIL,
-            result
+            result,
+            time
         )
     }
 

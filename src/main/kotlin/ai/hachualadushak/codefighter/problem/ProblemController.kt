@@ -31,6 +31,10 @@ class ProblemController(
     @Operation(summary = "Delete problem")
     fun deleteProblem(@PathVariable id: Int) = problemService.delete(id)
 
+    @GetMapping("/{id}/top")
+    @Operation(summary = "Get best solutions authors")
+    fun getBest(@PathVariable id: Long) = problemService.getBestSolutions(id)
+
     @GetMapping("/{id}")
     @Operation(summary = "Get problem and start time")
     fun startProblem(@PathVariable id: Int) = problemService.findById(id).toStartProblemDto()

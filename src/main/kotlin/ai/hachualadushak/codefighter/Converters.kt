@@ -11,13 +11,14 @@ fun Problem.toStartProblemDto() = StartProblemDto(
     template = this.template
 )
 
-fun Problem.toCheckResult(status: CheckStatus, stderr: String) = CheckTaskDto(
+fun Problem.toCheckResult(status: CheckStatus, stderr: String, time: Long) = CheckTaskDto(
     id = this.id,
     name = this.name,
     description = this.description,
     template = this.template,
     status = status,
     stderr = stderr,
+    time = time
 )
 
 fun User.toUserDto() = UserDto(
