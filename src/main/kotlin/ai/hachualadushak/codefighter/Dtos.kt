@@ -18,7 +18,6 @@ data class CheckTaskDto(
     val template: String,
     val status: CheckStatus,
     val stderr: String,
-    val duration: Long,
     val checkTime: LocalDateTime = LocalDateTime.now()
 )
 

@@ -2,17 +2,17 @@ version: "3.8"
 
 services:
   trumper:
-    image: "hachualadushak/codefighter"
+    image: "rastsislau/codefighter"
     build:
       context: .
-    container_name: codefighter
+    container_name: rastsislau/codefighter
     ports:
       - "22000:8088"
     environment:
       STORAGE_PROBLEMS: /opt/codefighter/problems
       STORAGE_USERS: /opt/codefighter/users
       WORKSPACE_PATH: /opt/codefighter/workspace
-      WORKSPACE_PYTHON: python
+      WORKSPACE_PYTHON: python3
     volumes:
       - D:/hachualadushak/codefighter/problems:/opt/codefighter/problems
       - D:/hachualadushak/codefighter/users:/opt/codefighter/users

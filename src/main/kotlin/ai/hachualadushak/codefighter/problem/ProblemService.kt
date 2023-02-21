@@ -41,15 +41,14 @@ class ProblemService(
         val result = "$pythonPath test.py".runCommand(File(workspacePath))
         File(workspacePath).deleteRecursively()
 
-        if (result.first.isNullOrBlank()) {
+        if (result.isNullOrBlank()) {
             problem.best = userService.getCurrent().login!!
             problemRepository.save(problem)
         }
 
         return problem.toCheckResult(
-            if (result.first.isNullOrBlank()) CheckStatus.SUCCESS else CheckStatus.FAIL,
-            result.first,
-            result.second.toMillis()
+            if (result.isNullOrBlank()) CheckStatus.SUCCESS else CheckStatus.FAIL,
+            result
         )
     }
 

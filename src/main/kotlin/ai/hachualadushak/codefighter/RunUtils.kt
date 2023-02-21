@@ -5,7 +5,7 @@ import java.io.IOException
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
-fun String.runCommand(workingDir: File): Pair<String, Duration> {
+fun String.runCommand(workingDir: File): String {
     try {
         val parts = this.split("\\s".toRegex())
         val proc = ProcessBuilder(*parts.toTypedArray())
@@ -17,7 +17,7 @@ fun String.runCommand(workingDir: File): Pair<String, Duration> {
             proc.destroyForcibly()
             throw TimeoutException("Your program is running too long.")
         }
-        return proc.errorStream.bufferedReader().readText() to proc.info().totalCpuDuration().get()
+        return proc.errorStream.bufferedReader().readText()
     } catch(e: IOException) {
         throw RuntimeException(e)
     }
