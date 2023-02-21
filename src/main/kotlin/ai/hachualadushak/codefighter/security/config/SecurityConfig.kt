@@ -26,6 +26,7 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity,
                     authFilter: AuthFilter): SecurityFilterChain {
         return http
+            .cors().and()
             .csrf().disable()
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
