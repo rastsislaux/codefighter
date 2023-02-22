@@ -47,6 +47,12 @@ class SolutionRepository(
             .sortedBy { it.time }
     }
 
+    fun getByFullName(fullName: String): List<Solution> {
+        return findAll()
+            .filter { it.author == fullName }
+            .sortedBy { it.time }
+    }
+
     fun save(profile: Solution): Solution {
         val profileFile = File("$storagePath/${profile.author}-${profile.problem.id}.json")
         profileFile.writer().let { mapper.writeValue(it, profile) }

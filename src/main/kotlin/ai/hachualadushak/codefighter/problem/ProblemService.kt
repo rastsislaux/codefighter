@@ -45,6 +45,8 @@ class ProblemService(
 
     fun getBestSolutions(id: Long) = solutionRepository.getByProblem(id)
 
+    fun getMyBestSolutions() = solutionRepository.getByFullName(userService.getCurrent().fullName ?: "")
+
     fun checkById(id: Int, code: String): CheckTaskDto {
         val problem = findById(id)
         val codeToRun = problem.checkerCode.replace("\${userFunction}", code)
