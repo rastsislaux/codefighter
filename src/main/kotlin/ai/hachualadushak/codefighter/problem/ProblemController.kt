@@ -1,5 +1,6 @@
 package ai.hachualadushak.codefighter.problem
 
+import ai.hachualadushak.codefighter.CodeDto
 import ai.hachualadushak.codefighter.toStartProblemDto
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.security.access.prepost.PreAuthorize
@@ -35,6 +36,13 @@ class ProblemController(
     @Operation(summary = "Get best solutions authors")
     fun getBest(@PathVariable id: Long) = problemService.getBestSolutions(id)
 
+    @GetMapping("/top")
+    @Operation(summary = "Get")
+    fun getBestAll() = problemService.findAll()
+        .map { it.id }
+        .map { problemService.getBestSolutions(it) }
+        .flatten()
+
     @GetMapping("/personal")
     @Operation(summary = "Get my best solutions")
     fun getMyBest() = problemService.getMyBestSolutions()
@@ -45,6 +53,6 @@ class ProblemController(
 
     @PostMapping("/{id}")
     @Operation(summary = "Check problem")
-    fun checkProblem(@PathVariable id: Int, @RequestBody code: String) = problemService.checkById(id, code)
+    fun checkProblem(@PathVariable id: Int, @RequestBody code: CodeDto) = problemService.checkById(id, code.code)
 
 }

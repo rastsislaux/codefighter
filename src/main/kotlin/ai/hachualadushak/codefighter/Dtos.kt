@@ -3,6 +3,10 @@ package ai.hachualadushak.codefighter
 import java.time.LocalDateTime
 import org.springframework.http.HttpStatus
 
+data class CodeDto(
+    val code: String
+)
+
 data class StartProblemDto(
     val id: Long,
     val name: String,

@@ -31,7 +31,7 @@ class SecurityConverter {
                 token = tokens.first.first,
                 expiresAt = tokens.first.second,
                 refreshToken = tokens.second.first,
-                refreshTokenExpiresAt = tokens.second.second
+                refreshTokenExpiresAt = tokens.second.second,
             )
         }
 

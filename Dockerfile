@@ -7,6 +7,6 @@ RUN ./gradlew build -x test --stacktrace
 FROM amazoncorretto:19
 WORKDIR /app
 ARG JAR_FILE=/app/build/libs/CodeFighter-0.0.1-SNAPSHOT.jar
-COPY --from=builder ${JAR_FILE} app.jar
 RUN yum install -y python3
+COPY --from=builder ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
